@@ -1,16 +1,6 @@
--- +goose Up
--- +goose StatementBegin
+package models
 
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    login VARCHAR(255) NOT NULL,
-    chat_id INTEGER NOT NULL,
-    is_admin BOOLEAN NOT NULL DEFAULT FALSE,
-    fact_balance INTEGER NOT NULL DEFAULT 0,
-    balance INTEGER NOT NULL DEFAULT 0,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+/*
 
 CREATE TABLE games (
     id SERIAL PRIMARY KEY,
@@ -23,7 +13,7 @@ CREATE TABLE games (
 CREATE TABLE game_users (
     id SERIAL PRIMARY KEY,
     game_id INTEGER NOT NULL REFERENCES games(id),
-    name TEXT NOT NULL,
+    user_id INTEGER NOT NULL REFERENCES users(id),
     is_winner BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -37,4 +27,34 @@ CREATE TABLE game_user_bets (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
--- +goose StatementEnd
+*/
+
+type Game struct {
+	ID       int    `json:"id" db:"id"`
+	Name     string `json:"name" db:"name"`
+	IsActive bool   `json:"is_active" db:"is_active"`
+}
+
+type GameUser struct {
+	ID     int    `json:"id" db:"id"`
+	GameID int    `json:"game_id" db:"game_id"`
+	Name   string `json:"name" db:"name"`
+	IsWin  bool   `json:"is_win" db:"is_win"`
+}
+
+type GameUserBet struct {
+	ID         int `json:"id" db:"id"`
+	GameUserID int `json:"game_user_id" db:"game_user_id"`
+	Bet        int `json:"bet" db:"bet"`
+	UserID     int `json:"user_id" db:"user_id"`
+}
+
+type GameWithUsers struct {
+	Game
+	Users []GameUserBetWithUser `json:"users"`
+}
+
+type GameUserBetWithUser struct {
+	GameUser
+	SumBet int `json:"sum_bet" db:"sum_bet"`
+}

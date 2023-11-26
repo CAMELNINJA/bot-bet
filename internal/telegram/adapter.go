@@ -6,7 +6,7 @@ import (
 
 	"github.com/CAMELNINJA/bot-bet.git/internal/config"
 	"github.com/CAMELNINJA/bot-bet.git/internal/models"
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	tgbotapi "github.com/matterbridge/telegram-bot-api/v6"
 )
 
 type service interface {

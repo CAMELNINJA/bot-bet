@@ -3,10 +3,10 @@ module github.com/CAMELNINJA/bot-bet.git
 go 1.21.1
 
 require (
-	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	github.com/jackc/pgx/v4 v4.18.1
 	github.com/jmoiron/sqlx v1.3.5
+	github.com/matterbridge/telegram-bot-api/v6 v6.5.0
 	github.com/urfave/cli v1.22.14
 )
 

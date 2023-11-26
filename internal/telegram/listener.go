@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/CAMELNINJA/bot-bet.git/internal/models"
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	tgbotapi "github.com/matterbridge/telegram-bot-api/v6"
 )
 
 func (a *adapter) Listener() error {
@@ -37,7 +37,7 @@ func (a *adapter) Listener() error {
 			switch update.Message.Command() {
 			case "start":
 				if err := a.chekUser(update, msg); err == nil {
-					msg.ReplyMarkup = MainKeyboard
+					msg.ReplyMarkup = a.getMainKeyboard()
 					msg.Text = AlreadyRegistered
 				}
 			case "addbalance":
@@ -63,8 +63,9 @@ func (a *adapter) Listener() error {
 							a.log.Error("error updating user data", err)
 							msg.Text = "Ошибка"
 						}
-						msg.Text = "Пополнен баланс"
+						msg.Text = "Баланс пополнен"
 
+						msg.ReplyMarkup = tgbotapi.NewKeyboardButtonWebApp("Сделать ставку", tgbotapi.WebAppInfo{URL: a.webAppUrl})
 					}
 				}
 			default:
@@ -95,11 +96,11 @@ func (a *adapter) Listener() error {
 				msg.Text = SupportText
 			case AddBalanceKeyboardButton:
 				if err := a.chekUser(update, msg); err == nil {
-					msg.Text = "Пополнить баланс"
+					msg.Text = "Пополнить баланс /addbalance + сумма"
 				}
 
 			default:
-				msg.Text = "Я не знаю такую команду, мне известны только [/start]"
+				msg.Text = "Я не знаю такую команду, мне известны только [/start , /addbalance]"
 			}
 		}
 		bot.Send(msg)

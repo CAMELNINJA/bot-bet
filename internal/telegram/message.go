@@ -1,13 +1,13 @@
 package telegram
 
-import tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+import tgbotapi "github.com/matterbridge/telegram-bot-api/v6"
 
 const (
 	StartMsg               = `Привет! Это бот по ставкам телеграмме`
 	RegistrationSuccessful = "Бот активирован! Пополните баланс для начала работы с ботом."
 	AlreadyRegistered      = "С возвращением тебя!"
 	MuteModeActivated      = "Уведомления отключены до конца дня!"
-	SupportText            = "Напишите нам: \n\n@came1l"
+	SupportText            = "Напишите нам: \n\n@L9camel"
 )
 
 const (
@@ -36,8 +36,16 @@ var AddBalanceKeyboard = tgbotapi.NewReplyKeyboard(
 	tgbotapi.NewKeyboardButtonRow(
 		tgbotapi.NewKeyboardButton(SupportButton),
 	))
-var MainKeyboard = tgbotapi.NewReplyKeyboard(
-	tgbotapi.NewKeyboardButtonRow(
-		tgbotapi.NewKeyboardButton(SupportButton),
-	),
-)
+
+func (a *adapter) getMainKeyboard() tgbotapi.ReplyKeyboardMarkup {
+	return tgbotapi.NewReplyKeyboard(
+		tgbotapi.NewKeyboardButtonRow(
+			tgbotapi.NewKeyboardButtonWebApp("Сделать ставку", tgbotapi.WebAppInfo{
+				URL: a.webAppUrl,
+			}),
+		),
+		tgbotapi.NewKeyboardButtonRow(
+			tgbotapi.NewKeyboardButton(SupportButton),
+		),
+	)
+}
