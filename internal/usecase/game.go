@@ -54,8 +54,12 @@ func (g *Game) CreateGame(name string, users ...string) error {
 	return nil
 }
 
-func (g *Game) GetLastGame() (*models.GameWithUsers, error) {
+func (g *Game) GetLastGame(chatID int) (*models.GameWithUsers, error) {
 	pgGame, err := g.repo.GetLastGame()
+	if err != nil {
+		return nil, err
+	}
+	pgUser, err := g.repo.GetByTelegramID(chatID)
 	if err != nil {
 		return nil, err
 	}
@@ -66,8 +70,9 @@ func (g *Game) GetLastGame() (*models.GameWithUsers, error) {
 	}
 
 	return &models.GameWithUsers{
-		Game:  *pgGame,
-		Users: pgGameUsers,
+		Game:    *pgGame,
+		Balance: pgUser.Balance,
+		Users:   pgGameUsers,
 	}, nil
 }
 

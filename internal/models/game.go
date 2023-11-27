@@ -51,7 +51,8 @@ type GameUserBet struct {
 
 type GameWithUsers struct {
 	Game
-	Users []*GameUserBetWithUser `json:"users"`
+	Balance int                    `json:"balance" db:"balance"`
+	Users   []*GameUserBetWithUser `json:"users"`
 }
 
 type GameUserBetWithUser struct {
