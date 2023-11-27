@@ -1,6 +1,10 @@
 package telegram
 
-import tgbotapi "github.com/matterbridge/telegram-bot-api/v6"
+import (
+	"strconv"
+
+	tgbotapi "github.com/matterbridge/telegram-bot-api/v6"
+)
 
 const (
 	StartMsg               = `Привет! Это бот по ставкам телеграмме`
@@ -37,11 +41,11 @@ var AddBalanceKeyboard = tgbotapi.NewReplyKeyboard(
 		tgbotapi.NewKeyboardButton(SupportButton),
 	))
 
-func (a *adapter) getMainKeyboard() tgbotapi.ReplyKeyboardMarkup {
+func (a *adapter) getMainKeyboard(sessionID int) tgbotapi.ReplyKeyboardMarkup {
 	return tgbotapi.NewReplyKeyboard(
 		tgbotapi.NewKeyboardButtonRow(
 			tgbotapi.NewKeyboardButtonWebApp("Сделать ставку", tgbotapi.WebAppInfo{
-				URL: a.webAppUrl,
+				URL: a.webAppUrl + "?session_id=" + strconv.Itoa(sessionID),
 			}),
 		),
 		tgbotapi.NewKeyboardButtonRow(

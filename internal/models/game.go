@@ -43,15 +43,15 @@ type GameUser struct {
 }
 
 type GameUserBet struct {
-	ID         int `json:"id" db:"id"`
-	GameUserID int `json:"game_user_id" db:"game_user_id"`
-	Bet        int `json:"bet" db:"bet"`
-	UserID     int `json:"user_id" db:"user_id"`
+	ID        int `json:"-" db:"id"`
+	SessionID int `json:"session_id" db:"game_user_id"`
+	Bet       int `json:"sum_bet" db:"bet"`
+	UserID    int `json:"user_id" db:"user_id"`
 }
 
 type GameWithUsers struct {
 	Game
-	Users []GameUserBetWithUser `json:"users"`
+	Users []*GameUserBetWithUser `json:"users"`
 }
 
 type GameUserBetWithUser struct {

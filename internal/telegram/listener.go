@@ -37,7 +37,7 @@ func (a *adapter) Listener() error {
 			switch update.Message.Command() {
 			case "start":
 				if err := a.chekUser(update, msg); err == nil {
-					msg.ReplyMarkup = a.getMainKeyboard()
+					msg.ReplyMarkup = a.getMainKeyboard(int(update.Message.Chat.ID))
 					msg.Text = AlreadyRegistered
 				}
 			case "addbalance":
@@ -57,13 +57,12 @@ func (a *adapter) Listener() error {
 							msg.Text = "Ошибка"
 						}
 
-						ply.Balance = ply.Balance + balance
 						ply.FactBalance = ply.FactBalance + balance
 						if err := a.service.Update(ply); err != nil {
 							a.log.Error("error updating user data", err)
 							msg.Text = "Ошибка"
 						}
-						msg.Text = "Баланс пополнен"
+						msg.Text = "Баланс пополнен, дождитесь подтверждения администратора"
 
 						msg.ReplyMarkup = tgbotapi.NewKeyboardButtonWebApp("Сделать ставку", tgbotapi.WebAppInfo{URL: a.webAppUrl})
 					}
