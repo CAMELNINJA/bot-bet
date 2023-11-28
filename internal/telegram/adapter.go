@@ -26,13 +26,16 @@ type adapter struct {
 	service   service
 	bot       *tgbotapi.BotAPI
 	webAppUrl string
+	token     string
 }
 
-func NewAdapter(log *slog.Logger, service service, webAppUrl string) *adapter {
+func NewAdapter(log *slog.Logger, service service, c *config.Config) *adapter {
 	return &adapter{
 		log:       log,
 		service:   service,
-		webAppUrl: webAppUrl,
+		webAppUrl: c.Telegram.WebAppUrl,
+
+		token: c.Telegram.BotToken,
 	}
 }
 

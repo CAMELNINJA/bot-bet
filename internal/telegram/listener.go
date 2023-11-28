@@ -9,7 +9,7 @@ import (
 )
 
 func (a *adapter) Listener() error {
-	bot, err := tgbotapi.NewBotAPI("MyAwesomeBotToken")
+	bot, err := tgbotapi.NewBotAPI(a.token)
 	if err != nil {
 		a.log.Error("error creating bot", err)
 		return err
