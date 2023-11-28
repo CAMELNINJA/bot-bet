@@ -33,6 +33,7 @@ type Game struct {
 	ID       int    `json:"id" db:"id"`
 	Name     string `json:"name" db:"name"`
 	IsActive bool   `json:"is_active" db:"is_active"`
+	SumBet   int    `json:"-" db:"sum_bet"`
 }
 
 type GameUser struct {
@@ -57,5 +58,6 @@ type GameWithUsers struct {
 
 type GameUserBetWithUser struct {
 	GameUser
-	SumBet int `json:"sum_bet" db:"sum_bet"`
+	SumBet int     `json:"sum_bet" db:"sum_bet"`
+	Bet    float32 `json:"bet" `
 }

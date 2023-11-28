@@ -22,13 +22,13 @@ type service interface {
 }
 
 type adapter struct {
-	log       slog.Logger
+	log       *slog.Logger
 	service   service
 	bot       *tgbotapi.BotAPI
 	webAppUrl string
 }
 
-func NewAdapter(log slog.Logger, service service, webAppUrl string) *adapter {
+func NewAdapter(log *slog.Logger, service service, webAppUrl string) *adapter {
 	return &adapter{
 		log:       log,
 		service:   service,

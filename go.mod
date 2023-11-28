@@ -3,6 +3,7 @@ module github.com/CAMELNINJA/bot-bet.git
 go 1.21.1
 
 require (
+	github.com/go-chi/chi v1.5.5
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	github.com/jackc/pgx/v4 v4.18.1
 	github.com/jmoiron/sqlx v1.3.5

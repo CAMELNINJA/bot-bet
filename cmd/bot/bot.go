@@ -23,6 +23,7 @@ func StartBot(configPath string) error {
 
 	log.Info("initializing server", slog.String("address", cfg.HttpServer.Address))
 	log.Debug("logger debug mode enabled")
+
 	return nil
 }
 

@@ -17,14 +17,16 @@ type gameRepo interface {
 
 	// GetByTelegramID returns user by telegram id
 	GetByTelegramID(id int) (*models.User, error)
+	// Update updates user
+	Update(user *models.User) error
 }
 
 type Game struct {
 	repo gameRepo
-	log  slog.Logger
+	log  *slog.Logger
 }
 
-func NewGame(repo gameRepo, log slog.Logger) *Game {
+func NewGame(repo gameRepo, log *slog.Logger) *Game {
 	return &Game{
 		repo: repo,
 		log:  log,
@@ -68,6 +70,10 @@ func (g *Game) GetLastGame(chatID int) (*models.GameWithUsers, error) {
 	if err != nil {
 		return nil, err
 	}
+	sum := 0
+	for _, user := range pgGameUsers {
+		sum += user.SumBet
+	}
 
 	return &models.GameWithUsers{
 		Game:    *pgGame,
@@ -88,5 +94,12 @@ func (g *Game) SetBet(gameUserBet *models.GameUserBet) error {
 	if user.Balance < gameUserBet.Bet {
 		return errors.New("not enough money")
 	}
-	return g.repo.SetBet(gameUserBet)
+	if err := g.repo.SetBet(gameUserBet); err != nil {
+		return err
+	}
+	user.Balance -= gameUserBet.Bet
+	if err := g.repo.Update(user); err != nil {
+		return err
+	}
+	return nil
 }

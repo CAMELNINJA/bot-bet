@@ -20,11 +20,11 @@ type userRepo interface {
 }
 
 type UserUsecase struct {
-	log  slog.Logger
+	log  *slog.Logger
 	repo userRepo
 }
 
-func NewUserUsecase(log slog.Logger, repo userRepo) *UserUsecase {
+func NewUserUsecase(log *slog.Logger, repo userRepo) *UserUsecase {
 	return &UserUsecase{
 		log:  log,
 		repo: repo,

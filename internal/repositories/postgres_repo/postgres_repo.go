@@ -11,11 +11,11 @@ import (
 type PostrgesRepo struct {
 	db      *sqlx.DB
 	pgxConn *pgx.Conn
-	logger  slog.Logger
+	logger  *slog.Logger
 }
 
 // NewPostrgesRepo  -.
-func NewPostrgesRepo(db *sqlx.DB, pgxConn *pgx.Conn, logger slog.Logger) *PostrgesRepo {
+func NewPostrgesRepo(db *sqlx.DB, pgxConn *pgx.Conn, logger *slog.Logger) *PostrgesRepo {
 
 	return &PostrgesRepo{db: db, pgxConn: pgxConn, logger: logger}
 }
